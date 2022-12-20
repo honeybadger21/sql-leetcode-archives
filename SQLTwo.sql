@@ -18,3 +18,22 @@ SELECT person1, person2, COUNT(*) as call_count, SUM(duration) as total_duration
         Calls
 ) a
 GROUP BY person1, person2
+
+-- 1251. Average Selling Price 
+
+SELECT P.product_id, ROUND(SUM(units*price)/SUM(units), 2) average_price 
+FROM Prices P JOIN UnitsSold U ON P.product_id = U.product_id 
+AND purchase_date BETWEEN start_date and end_date
+GROUP BY P.product_id
+
+-- 1571. Warehouse Manager 
+
+SELECT W.name AS warehouse_name, SUM(P.width * p.length * p.height * w.units) AS VOLUME 
+FROM Warehouse W INNER JOIN Products P ON W.product_id = P.product_id GROUP BY W.name
+
+-- 1445. Apples & Oranges
+
+SELECT A.sale_date, A.S1 - B.S2 AS diff
+FROM (SELECT sale_date, SUM(sold_num) AS S1 FROM Sales WHERE fruit = 'apples' GROUP BY sale_date) A
+INNER JOIN (SELECT sale_date, SUM(sold_num) AS S2 FROM Sales WHERE fruit = 'oranges' GROUP BY sale_date) B
+ON A.sale_date = B.sale_date 
