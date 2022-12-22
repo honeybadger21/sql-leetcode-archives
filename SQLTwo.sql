@@ -37,3 +37,21 @@ SELECT A.sale_date, A.S1 - B.S2 AS diff
 FROM (SELECT sale_date, SUM(sold_num) AS S1 FROM Sales WHERE fruit = 'apples' GROUP BY sale_date) A
 INNER JOIN (SELECT sale_date, SUM(sold_num) AS S2 FROM Sales WHERE fruit = 'oranges' GROUP BY sale_date) B
 ON A.sale_date = B.sale_date 
+
+-----------
+-- Day 2 --
+-----------
+
+-- 1193. Monthly Transactions I
+SELECT date_format(trans_date,"%Y-%m") AS month, 
+       country, 
+       COUNT(id) AS trans_count, 
+       SUM(CASE WHEN state = 'approved' THEN 1 ELSE 0 END) AS approved_count,
+       SUM(amount) AS trans_total_amount, 
+       SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) AS approved_total_amount
+FROM Transactions
+GROUP BY month, country 
+
+
+
+
