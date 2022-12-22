@@ -43,6 +43,7 @@ ON A.sale_date = B.sale_date
 -----------
 
 -- 1193. Monthly Transactions I
+
 SELECT date_format(trans_date,"%Y-%m") AS month, 
        country, 
        COUNT(id) AS trans_count, 
@@ -52,6 +53,20 @@ SELECT date_format(trans_date,"%Y-%m") AS month,
 FROM Transactions
 GROUP BY month, country 
 
+-- 1633. Percentage of Users Attended a Contest
 
+SELECT contest_id, ROUND(100*COUNT(user_id)/(SELECT COUNT(DISTINCT user_id) FROM Users), 2) AS percentage
+FROM Register GROUP BY contest_id ORDER BY percentage DESC, contest_id
 
+-- 1173. Immediate Food Delivery I
+
+SELECT ROUND(100*SUM(CASE WHEN customer_pref_delivery_date = order_date THEN 1 ELSE 0 END)/(SELECT COUNT(delivery_id) FROM Delivery), 2)
+AS immediate_percentage FROM Delivery 
+
+-- 1211. Queries Quality and Percentage
+
+SELECT query_name,
+       ROUND(AVG(rating/position), 2) AS quality, 
+       ROUND(100*SUM(CASE WHEN rating < 3 THEN 1 ELSE 0 END)/COUNT(query_name), 2) AS poor_query_percentage
+FROM queries GROUP BY query_name
 
