@@ -198,7 +198,6 @@ FROM users u LEFT JOIN orders o ON u.user_id = o.buyer_id GROUP BY user_id;
 -- Duplicate Emails 
 select email from Person group by email having count(*)>1
 
-
 -- Actors and Directors Who Cooperated Atleast Three Times 
 select actor_id, director_id 
 from ActorDirector group by 1, 2 having count(timestamp) > 2
@@ -209,8 +208,8 @@ inner join Users a on b.account = a.account
 group by b.account having balance >= 10000
 
 -- Sales Analysis III 
-
 select product_id, product_name from Sales 
 join Product using(product_id) 
 group by product_id 
 having min(sale_date) >= '2019-01-01' and max(sale_date) <= '2019-03-31'
+
