@@ -67,10 +67,13 @@ FROM queries GROUP BY query_name
 -----------
 
 -- 1607. Sellers With No Sales
-
+SELECT A.seller_name AS SELLER_NAME 
+FROM seller A LEFT JOIN orders B ON A.seller_id = B.seller_id 
+WHERE A.seller_id NOT IN (SELECT seller_id FROM orders WHERE YEAR(sale_date)=2020)
+ORDER BY A.seller_name
 
 -- 619. Biggest Single Number
-
+SELECT MAX(num) AS num FROM (SELECT num FROM MyNumbers GROUP BY num HAVING count(*) = 1) A
 
 -- 1112. Highest Grade For Each Student
 
