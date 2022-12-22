@@ -76,9 +76,16 @@ ORDER BY A.seller_name
 SELECT MAX(num) AS num FROM (SELECT num FROM MyNumbers GROUP BY num HAVING count(*) = 1) A
 
 -- 1112. Highest Grade For Each Student
+SELECT student_id, MIN(course_id) AS course_id, grade FROM Enrollments
+WHERE (student_id, grade) IN (SELECT student_id, MAX(grade) FROM Enrollments GROUP BY student_id)
+GROUP BY student_id ORDER BY student_id, course_id
 
-
--- 1398. Customers Who Bought Products A and B but Not C
+-- 1398. Customers Who Bought Products A and B but Not C [Good Question] 
+SELECT DISTINCT customer_id, customer_name FROM Customers
+WHERE customer_id NOT IN (SELECT customer_id FROM Orders WHERE product_name = 'C')
+AND customer_id IN (SELECT customer_id FROM Orders WHERE product_name = 'A')
+AND customer_id IN (SELECT customer_id FROM Orders WHERE product_name = 'B')
+ORDER BY customer_id
 
 
 
