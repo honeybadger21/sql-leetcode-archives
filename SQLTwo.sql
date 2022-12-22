@@ -1,6 +1,6 @@
 -- Solution Archive for LeetCode SQL Study Plan - II 
 -- 11 Days of SQL practice, created by Ruchi Sharma [UT Austin '23, IIT Roorkee '21]
--- [19 Dec 2022, 19 Dec 2022] 
+-- [19 Dec 2022, 29 Dec 2022] 
 
 -----------
 -- Day 1 --
@@ -69,4 +69,33 @@ SELECT query_name,
        ROUND(AVG(rating/position), 2) AS quality, 
        ROUND(100*SUM(CASE WHEN rating < 3 THEN 1 ELSE 0 END)/COUNT(query_name), 2) AS poor_query_percentage
 FROM queries GROUP BY query_name
+
+-----------
+-- Day 3 --
+-----------
+
+-- 1607. Sellers With No Sales
+
+
+-- 619. Biggest Single Number
+
+
+-- 1112. Highest Grade For Each Student
+
+
+-- 1398. Customers Who Bought Products A and B but Not C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
