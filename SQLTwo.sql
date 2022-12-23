@@ -91,14 +91,28 @@ ORDER BY customer_id
 -- Day 4 --
 -----------
 
--- 1440. Evaluate Boolean Expression
+-- 1440. Evaluate Boolean Expression [Good Question]
+SELECT E.*, CASE E.operator WHEN ">" THEN IF(V1.value > V2.value, "true", "false")
+                            WHEN "=" THEN IF(V1.value = V2.value, "true", "false")
+                            WHEN "<" THEN IF(V1.value < V2.value, "true", "false")
+                            END AS value 
+FROM Expressions E LEFT JOIN Variables V1
+ON E.left_operand = V1.name
+LEFT JOIN Variables V2
+ON E.right_operand = V2.name
 
--- 1264. Page Recommendations
+-- 1264. Page Recommendations [Meta]
+SELECT DISTINCT B.page_id AS recommended_page 
+FROM Friendship A INNER JOIN Likes B
+ON A.user1_id = B.user_id OR A.user2_id = B.user_id 
+WHERE (A.user1_id = 1 OR A.user2_id = 1) AND B.page_id NOT IN (SELECT page_id FROM Likes WHERE user_id = 1)
 
 -- 570. Managers with at Least 5 Direct Reports
+SELECT M.name FROM Employee E JOIN Employee M 
+WHERE E.managerId = M.id GROUP BY E.managerId HAVING COUNT(*) >= 5
 
 -- 1303. Find the Team Size
-
+SELECT employee_id, COUNT(employee_id) OVER (PARTITION BY team_id) AS team_size FROM Employee 
 
 
 
