@@ -87,7 +87,17 @@ AND customer_id IN (SELECT customer_id FROM Orders WHERE product_name = 'A')
 AND customer_id IN (SELECT customer_id FROM Orders WHERE product_name = 'B')
 ORDER BY customer_id
 
+-----------
+-- Day 4 --
+-----------
 
+-- 1440. Evaluate Boolean Expression
+
+-- 1264. Page Recommendations
+
+-- 570. Managers with at Least 5 Direct Reports
+
+-- 1303. Find the Team Size
 
 
 
