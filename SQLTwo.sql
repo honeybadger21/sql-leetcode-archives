@@ -126,7 +126,20 @@ GROUP BY A.student_id, B.subject_name ORDER BY student_id, subject_name
 
 -- 1501. Countries You Can Safely Invest In
 
+SELECT A.name as country 
+FROM 
+    (SELECT CO.name, AVG(C.duration) AS co_duration 
+    FROM calls C 
+    JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id 
+    JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
+    GROUP BY CO.name) A 
+WHERE A.co_duration > (SELECT AVG(C.duration) AS go_duration FROM calls C)
+JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id 
+JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
+
 -- 184. Department Highest Salary
+
+
 
 -- 580. Count Student Number in Departments
 
