@@ -139,17 +139,13 @@ JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
 
 -- 184. Department Highest Salary
 
-SELECT A.name as country 
-FROM 
-    (SELECT CO.name, AVG(C.duration) AS co_duration 
-    FROM calls C 
-    JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id 
-    JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
-    GROUP BY CO.name) A 
-WHERE A.co_duration > (SELECT AVG(C.duration) AS go_duration FROM calls C)
-JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id 
-JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code 
+
 
 -- 580. Count Student Number in Departments
+
+SELECT D.dept_name AS dept_name, COUNT(S.student_id) AS student_number FROM student AS S 
+RIGHT JOIN department AS D ON S.dept_id = D.dept_id 
+GROUP BY D.dept_name ORDER BY student_number DESC
+
 
 
