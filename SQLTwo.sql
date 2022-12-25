@@ -114,14 +114,20 @@ WHERE E.managerId = M.id GROUP BY E.managerId HAVING COUNT(*) >= 5
 -- 1303. Find the Team Size
 SELECT employee_id, COUNT(employee_id) OVER (PARTITION BY team_id) AS team_size FROM Employee 
 
+-----------
+-- Day 5 --
+-----------
 
+-- 1280. Students and Examinations
 
+SELECT A.student_id, A.student_name, B.subject_name, COUNT(C.subject_name) AS attended_exams
+FROM Students A JOIN Subjects B LEFT JOIN Examinations C ON A.student_id = C.student_id AND B.subject_name = C.subject_name 
+GROUP BY A.student_id, B.subject_name ORDER BY student_id, subject_name 
 
+-- 1501. Countries You Can Safely Invest In
 
+-- 184. Department Highest Salary
 
-
-
-
-
+-- 580. Count Student Number in Departments
 
 
