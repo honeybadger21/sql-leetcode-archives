@@ -119,13 +119,11 @@ SELECT employee_id, COUNT(employee_id) OVER (PARTITION BY team_id) AS team_size 
 -----------
 
 -- 1280. Students and Examinations [Redo using subquery and join]
-
 SELECT A.student_id, A.student_name, B.subject_name, COUNT(C.subject_name) AS attended_exams
 FROM Students A JOIN Subjects B LEFT JOIN Examinations C ON A.student_id = C.student_id AND B.subject_name = C.subject_name 
 GROUP BY A.student_id, B.subject_name ORDER BY student_id, subject_name 
 
 -- 1501. Countries You Can Safely Invest In [Revisit]
-
 SELECT A.name as country 
 FROM 
     (SELECT CO.name, AVG(C.duration) AS co_duration 
@@ -138,7 +136,6 @@ JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id
 JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
 
 -- 184. Department Highest Salary [Revisit]
-
 SELECT D.Name as Department, E.Name as Employee, E.Salary
 FROM Department D, Employee E, Employee E2
 WHERE D.ID = E.DepartmentId and E.DepartmentId = E2.DepartmentId AND E.Salary <= E2.Salary
@@ -146,7 +143,6 @@ GROUP BY D.ID, E.Name HAVING COUNT(DISTINCT E2.Salary) = 1
 ORDER BY D.Name DESC
 
 -- 580. Count Student Number in Departments [Revisit]
-
 SELECT D.dept_name AS dept_name, COUNT(S.student_id) AS student_number FROM student AS S 
 RIGHT JOIN department AS D ON S.dept_id = D.dept_id 
 GROUP BY D.dept_name ORDER BY student_number DESC
@@ -156,21 +152,64 @@ GROUP BY D.dept_name ORDER BY student_number DESC
 -----------
 
 -- 1294. Weather Type in Each Country
+SELECT B.country_name, A.weather_type
+FROM 
+    (SELECT country_id, 
+            CASE WHEN AVG(weather_state) <= 15 THEN "Cold"
+            WHEN AVG(weather_state) >= 25 THEN "Hot"
+            ELSE "Warm" END AS weather_type 
+     FROM Weather WHERE MONTH(day) = 11 AND YEAR(day) = 2019 GROUP BY country_id
+    ) A, 
+Countries B 
+WHERE A.country_id = B.country_id
 
 -- 626. Exchange Seats
+/*
+Using flow control statement CASE: For students with odd id, the new id is (id+1) after switch unless it is the last seat. 
+And for students with even id, the new id is (id-1). In order to know how many seats in total, we can use a subquery. 
+Then, we can use the CASE statement and MOD() function to alter the seat id of each student.
+*/
 
--- 1783. Grand Slam Titles
+SELECT
+    (CASE
+        WHEN MOD(id, 2) != 0 AND counts != id THEN id + 1
+        WHEN MOD(id, 2) != 0 AND counts = id THEN id
+        ELSE id - 1
+    END) AS id,
+    student
+FROM
+    seat,
+    (SELECT
+        COUNT(*) AS counts
+    FROM
+        seat) AS seat_counts
+ORDER BY id ASC
+
+-- 1783. Grand Slam Titles [Good Question] 
+SELECT player_id, player_name, 
+       SUM(player_id = Wimbledon) + SUM(player_id = Fr_open)
+       + SUM(player_id = US_open) + SUM(player_id = Au_open) AS grand_slams_count
+FROM Players JOIN Championships 
+ON player_id = Wimbledon OR player_id = Fr_open 
+    OR player_id = US_open OR player_id = Au_open
+GROUP BY player_id
 
 -- 1164. Product Price at a Given Date
+SELECT A.product_id, IFNULL(B.new_price, 10) AS price
+FROM 
+    (SELECT DISTINCT product_id FROM Products) A
+LEFT JOIN 
+    (SELECT product_id, new_price FROM Products 
+        WHERE (product_id, change_date) IN 
+            (SELECT product_id, MAX(change_date) 
+             FROM Products 
+             WHERE change_date <= '2019-08-16' 
+             GROUP BY product_id)
+    ) B
+ON A.product_id = B.product_id
 
-
-
-
-
-
-
-
-
-
+-----------
+-- Day 7 --
+-----------
 
 
