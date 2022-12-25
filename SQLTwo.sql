@@ -118,13 +118,13 @@ SELECT employee_id, COUNT(employee_id) OVER (PARTITION BY team_id) AS team_size 
 -- Day 5 --
 -----------
 
--- 1280. Students and Examinations
+-- 1280. Students and Examinations [Redo using subquery and join]
 
 SELECT A.student_id, A.student_name, B.subject_name, COUNT(C.subject_name) AS attended_exams
 FROM Students A JOIN Subjects B LEFT JOIN Examinations C ON A.student_id = C.student_id AND B.subject_name = C.subject_name 
 GROUP BY A.student_id, B.subject_name ORDER BY student_id, subject_name 
 
--- 1501. Countries You Can Safely Invest In
+-- 1501. Countries You Can Safely Invest In [Revisit]
 
 SELECT A.name as country 
 FROM 
@@ -137,15 +137,40 @@ WHERE A.co_duration > (SELECT AVG(C.duration) AS go_duration FROM calls C)
 JOIN person P ON P.id = C.caller_id OR P.id = C.callee_id 
 JOIN country CO ON substring(P.phone_number, 1, 3) = CO.country_code
 
--- 184. Department Highest Salary
+-- 184. Department Highest Salary [Revisit]
 
+SELECT D.Name as Department, E.Name as Employee, E.Salary
+FROM Department D, Employee E, Employee E2
+WHERE D.ID = E.DepartmentId and E.DepartmentId = E2.DepartmentId AND E.Salary <= E2.Salary
+GROUP BY D.ID, E.Name HAVING COUNT(DISTINCT E2.Salary) = 1
+ORDER BY D.Name DESC
 
-
--- 580. Count Student Number in Departments
+-- 580. Count Student Number in Departments [Revisit]
 
 SELECT D.dept_name AS dept_name, COUNT(S.student_id) AS student_number FROM student AS S 
 RIGHT JOIN department AS D ON S.dept_id = D.dept_id 
 GROUP BY D.dept_name ORDER BY student_number DESC
+
+-----------
+-- Day 6 --
+-----------
+
+-- 1294. Weather Type in Each Country
+
+-- 626. Exchange Seats
+
+-- 1783. Grand Slam Titles
+
+-- 1164. Product Price at a Given Date
+
+
+
+
+
+
+
+
+
 
 
 
