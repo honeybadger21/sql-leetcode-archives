@@ -232,7 +232,5 @@ ON A.account_id = B.account_id AND A.ip_address <> B.ip_address
 WHERE A.login BETWEEN B.login AND B.logout OR B.login BETWEEN A.login and A.logout 
 
 -- 181. Employees Earning More Than Their Managers
-
-# Write your MySQL query statement below
 SELECT A.name AS Employee FROM Employee A JOIN Employee B 
 ON A.managerId = B.id WHERE A.salary > B.salary
