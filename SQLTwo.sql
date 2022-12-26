@@ -212,4 +212,10 @@ ON A.product_id = B.product_id
 -- Day 7 --
 -----------
 
+-- 603. Consecutive Available Seats
+SELECT DISTINCT A.seat_id FROM Cinema A JOIN Cinema B 
+ON ABS(A.seat_id - b.seat_id) = 1 AND a.free = TRUE AND b.free = TRUE
+ORDER BY seat_id
+
+
 
