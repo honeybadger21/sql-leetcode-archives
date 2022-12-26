@@ -217,5 +217,19 @@ SELECT DISTINCT A.seat_id FROM Cinema A JOIN Cinema B
 ON ABS(A.seat_id - b.seat_id) = 1 AND a.free = TRUE AND b.free = TRUE
 ORDER BY seat_id
 
+-- 1731. The Number of Employees Which Report to Each Employee
+SELECT A.reports_to AS employee_id,
+	   B.name AS name,
+	   COUNT(A.employee_id) AS reports_count,
+	   ROUND(AVG(A.age)) AS average_age
+FROM Employees A JOIN Employees A ON A.reports_to = B.employee_id
+WHERE A.reports_to IS NOT NULL 
+GROUP BY A.reports_to ORDER BY A.reports_to
 
+-- 1747. Leetflex Banned Accounts
+SELECT DISTINCT A.account_id FROM LogInfo A JOIN Loginfo B 
+ON A.account_id = B.account_id AND A.ip_address <> B.ip_address
+WHERE A.login BETWEEN B.login AND B.logout OR B.login BETWEEN A.login and A.logout 
+
+-- 181. Employees Earning More Than Their Managers
 
