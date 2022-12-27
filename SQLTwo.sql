@@ -234,3 +234,16 @@ WHERE A.login BETWEEN B.login AND B.logout OR B.login BETWEEN A.login and A.logo
 -- 181. Employees Earning More Than Their Managers
 SELECT A.name AS Employee FROM Employee A JOIN Employee B 
 ON A.managerId = B.id WHERE A.salary > B.salary
+
+-----------
+-- Day 8 --
+-----------
+
+-- 1459. Rectangles Area
+
+-- 180. Consecutive Numbers
+
+-- 1988. Find Cutoff Score for Each School
+
+
+
