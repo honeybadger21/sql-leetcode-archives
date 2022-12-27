@@ -242,6 +242,15 @@ ON A.managerId = B.id WHERE A.salary > B.salary
 -- 1459. Rectangles Area
 
 -- 180. Consecutive Numbers
+SELECT DISTINCT(A.num) AS ConsecutiveNums FROM 
+(
+SELECT id, 
+       num, 
+       LAG(num, 1, 0) OVER (ORDER BY id) AS num2, 
+       LAG(num, 2, 0) over (ORDER BY id) AS num3
+FROM Logs ORDER BY id
+) A 
+WHERE A.num = A.num2 AND A.num3 = A.num2
 
 -- 1988. Find Cutoff Score for Each School
 
