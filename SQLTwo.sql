@@ -240,6 +240,11 @@ ON A.managerId = B.id WHERE A.salary > B.salary
 -----------
 
 -- 1459. Rectangles Area
+SELECT A.id AS P1, B.id AS P2,  
+       ABS(A.x_value - B.x_value)*ABS(A.y_value - B.y_value) AS area
+FROM Points A JOIN Points B 
+ON A.x_value != B.x_value AND A.y_value != B.y_value AND A.id < B.id
+ORDER BY area DESC, P1 ASC, P2 ASC
 
 -- 180. Consecutive Numbers
 SELECT DISTINCT(A.num) AS ConsecutiveNums FROM 
