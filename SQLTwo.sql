@@ -258,6 +258,34 @@ FROM Logs ORDER BY id
 WHERE A.num = A.num2 AND A.num3 = A.num2
 
 -- 1988. Find Cutoff Score for Each School
+SELECT school_id, IFNULL(MIN(SCORE), -1) AS score
+FROM Schools A LEFT JOIN Exam B ON A.capacity >= B.student_count
+GROUP BY school_id
+
+-----------
+-- Day 9 --
+-----------
+
+-- 1549. The Most Recent Orders for Each Product
+
+-- 1321. Restaurant Growth
+
+-- 1045. Customers Who Bought All Products
 
 
+------------
+-- Day 10 --
+------------
 
+-- 1341. Movie Rating
+
+-- 1867. Orders With Maximum Quantity Above Average
+
+
+------------
+-- Day 11 --
+------------
+
+-- 550. Game Play Analysis IV
+
+-- 262. Trips and Users
