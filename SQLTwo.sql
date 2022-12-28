@@ -278,6 +278,19 @@ WHERE (A.product_id, A.order_date) IN
 ORDER BY B.product_name, A.product_id, A.order_id
 
 -- 1321. Restaurant Growth
+SELECT T1.visited_on AS visited_on, 
+       SUM(amount) AS amount,
+       ROUND(SUM(AMOUNT)/7, 2) AS average_amount
+FROM (
+        SELECT DISTINCT(visited_on) AS visited_on FROM Customer
+        WHERE DATE_SUB(visited_on, INTERVAL 6 DAY) IN 
+            (
+                SELECT DISTINCT(visited_on) FROM Customer
+            )
+     ) AS T1
+LEFT JOIN Customer as T2
+ON T2.visited_on BETWEEN DATE_SUB(t1.visited_on, INTERVAL 6 DAY) 
+    AND T1.visited_on GROUP BY T1.visited_on
 
 -- 1045. Customers Who Bought All Products
 
