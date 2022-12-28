@@ -267,6 +267,15 @@ GROUP BY school_id
 -----------
 
 -- 1549. The Most Recent Orders for Each Product
+SELECT B.product_name, A.product_id, A.order_id, A.order_date 
+FROM Orders A JOIN Products B ON A.product_id = B.product_id 
+WHERE (A.product_id, A.order_date) IN 
+    (
+        SELECT product_id, MAX(order_date) AS order_date
+        FROM Orders
+        GROUP BY product_id
+    )
+ORDER BY B.product_name, A.product_id, A.order_id
 
 -- 1321. Restaurant Growth
 
