@@ -293,7 +293,8 @@ ON T2.visited_on BETWEEN DATE_SUB(t1.visited_on, INTERVAL 6 DAY)
     AND T1.visited_on GROUP BY T1.visited_on
 
 -- 1045. Customers Who Bought All Products
-
+SELECT customer_id FROM Customer GROUP BY customer_id 
+HAVING (COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product))
 
 ------------
 -- Day 10 --
