@@ -300,7 +300,26 @@ HAVING (COUNT(DISTINCT product_key) = (SELECT COUNT(product_key) FROM Product))
 -- Day 10 --
 ------------
 
--- 1341. Movie Rating
+-- 1341. Movie Rating 
+SELECT user_name AS results FROM 
+(
+    SELECT B.name AS user_name, COUNT(*) AS counts 
+    FROM MovieRating A JOIN USERS B
+    ON A.user_id = B.user_id
+    GROUP BY A.user_id
+    ORDER BY counts DESC, user_name ASC LIMIT 1
+) C
+
+UNION
+
+SELECT movie_name AS results FROM 
+(
+    SELECT D.TITLE AS movie_name, AVG(E.rating) AS grade
+    FROM MovieRating E JOIN Movies D
+    ON E.movie_id = D.movie_id
+    WHERE SUBSTR(E.created_at, 1, 7) = "2020-02"
+    GROUP BY E.movie_id ORDER BY grade DESC, movie_name ASC LIMIT 1
+) F
 
 -- 1867. Orders With Maximum Quantity Above Average
 
