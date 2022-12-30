@@ -339,5 +339,13 @@ WHERE maximum_quantity > (SELECT MAX(average_quantity) FROM order_quantity)
 ------------
 
 -- 550. Game Play Analysis IV
+SELECT ROUND(COUNT(NULLIF(A.event_date, NULL))/COUNT(*), 2) fraction
+FROM ACTIVITY A RIGHT JOIN 
+(
+    SELECT player_id, MIN(event_date) event_date FROM Activity
+    GROUP BY player_id
+) B
+ON DATEDIFF(A.event_date, b.event_date) = 1
+    AND A.player_id = B.player_id
 
 -- 262. Trips and Users
