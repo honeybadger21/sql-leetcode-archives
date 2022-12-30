@@ -348,4 +348,9 @@ FROM ACTIVITY A RIGHT JOIN
 ON DATEDIFF(A.event_date, b.event_date) = 1
     AND A.player_id = B.player_id
 
--- 262. Trips and Users
+-- 262. Trips and Users [Important] 
+SELECT T.request_at AS Day, 
+       ROUND(AVG(IF(T.status <> 'completed', 1, 0)), 2) AS 'Cancellation Rate'
+FROM Trips T JOIN Users U ON T.client_id = U.users_id AND U.banned = "No"
+WHERE T.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY T.request_at
