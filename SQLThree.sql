@@ -8,3 +8,6 @@
 
 -- 1303. Find the Team Size
 SELECT employee_id, COUNT(employee_id) OVER (PARTITION BY team_id) AS team_size FROM Employee 
+
+-- 1308. Running Total for Different Genders
+SELECT gender, day, SUM(score_points) OVER(PARTITION BY gender ORDER BY day) AS total FROM Scores
