@@ -83,4 +83,55 @@ ORDER BY customer_id, product_id
 -- 1951. All the Pairs With the Maximum Number of Common Followers
 -- 1709. Biggest Window Between Visits
 
+-----------
+-- Day 4 --
+-----------
 
+-- 1949. Strong Friendship
+-- 1532. The Most Recent Three Orders
+-- 1126. Active Businesses
+-- 1831. Maximum Transaction Each Day
+
+-----------
+-- Day 5 --
+-----------
+
+-- 1613. Find the Missing IDs
+-- 1270. All People Report to the Given Manager
+-- 1369. Get the Second Most Recent Activity
+
+-----------
+-- Day 6 --
+-----------
+
+-- 1412. Find the Quiet Students in All Exams
+-- 1972. First and Last Call On the Same Day
+
+-----------
+-- Day 7 --
+-----------
+
+-- 185. Department Top Three Salaries
+-- 1767. Find the Subtasks That Did Not Execute
+
+-----------
+-- Day 8 --
+-----------
+
+-- 1384. Total Sales Amount by Year
+-- 569. Median Employee Salary
+
+-----------
+-- Day 9 --
+-----------
+
+-- 571. Find Median Given Frequency of Numbers
+-- 1225. Report Contiguous Dates
+
+-----------
+-- Day 10 --
+-----------
+
+-- 1454. Active Users
+-- 618. Students Report By Geography
+-- 2010. The Number of Seniors and Juniors to Join the Company II
