@@ -50,4 +50,15 @@ WHERE ranking = 1
 ORDER BY product_name, product_id, order_id
 
 -- 1285. Find the Start and End Number of Continuous Ranges
+WITH CTE AS 
+(
+    SELECT log_id, row_number() OVER(ORDER BY log_id) AS rownum FROM logs
+)
+
+SELECT min(log_id) as start_id, 
+       max(log_id) as end_id
+FROM CTE
+GROUP BY (log_id - rownum)
+ORDER BY start_id
+
 -- 1596. The Most Frequently Ordered Products for Each Customer
