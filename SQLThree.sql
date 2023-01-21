@@ -27,6 +27,16 @@ HAVING AVG(duration) > (SELECT AVG(duration) FROM Calls)
 -----------
 
 -- 1077. Project Employees III
+
+SELECT project_id, employee_id FROM 
+(
+    SELECT a.project_id, a.employee_id,
+            rank() over (partition by a.project_id order by b.experience_years DESC) AS ranking
+            FROM project a LEFT JOIN employee b
+            ON a.employee_id = b. employee_id
+) c
+where ranking = 1
+
 -- 1549. The Most Recent Orders for Each Product
 -- 1285. Find the Start and End Number of Continuous Ranges
 -- 1596. The Most Frequently Ordered Products for Each Customer
