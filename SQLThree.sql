@@ -62,3 +62,25 @@ GROUP BY (log_id - rownum)
 ORDER BY start_id
 
 -- 1596. The Most Frequently Ordered Products for Each Customer
+SELECT customer_id, product_id, product_name
+FROM (
+    SELECT O.customer_id, O.product_id, P.product_name, 
+    RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(O.product_id) DESC) AS rnk
+    FROM Orders O
+    JOIN Products P
+    ON O.product_id = P.product_id  
+    GROUP BY customer_id, product_id
+) temp
+WHERE rnk = 1 
+ORDER BY customer_id, product_id
+
+-----------
+-- Day 3 --
+-----------
+
+-- 178. Rank Scores
+-- 177. Nth Highest Salary
+-- 1951. All the Pairs With the Maximum Number of Common Followers
+-- 1709. Biggest Window Between Visits
+
+
