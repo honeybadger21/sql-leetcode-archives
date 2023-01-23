@@ -93,6 +93,17 @@ SET M = N - 1;
 END
 
 -- 1951. All the Pairs With the Maximum Number of Common Followers
+SELECT user1_id, user2_id 
+FROM
+(
+    SELECT a.user_id as user1_id, b.user_id as user2_id, 
+           dense_rank() over(order by count(a.follower_id) desc) as ranks
+    FROM Relations a, Relations b
+    WHERE a.user_id < b.user_id AND a.follower_id = b.follower_id
+    GROUP BY a.user_id, b.user_id
+) TEMP
+WHERE ranks = 1
+
 -- 1709. Biggest Window Between Visits
 
 -----------
