@@ -79,6 +79,8 @@ ORDER BY customer_id, product_id
 -----------
 
 -- 178. Rank Scores
+SELECT S.score, DENSE_RANK() OVER (ORDER BY S.score DESC) AS "rank" FROM Scores S
+
 -- 177. Nth Highest Salary
 -- 1951. All the Pairs With the Maximum Number of Common Followers
 -- 1709. Biggest Window Between Visits
