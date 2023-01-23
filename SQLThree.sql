@@ -82,6 +82,16 @@ ORDER BY customer_id, product_id
 SELECT S.score, DENSE_RANK() OVER (ORDER BY S.score DESC) AS "rank" FROM Scores S
 
 -- 177. Nth Highest Salary
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+DECLARE M int;
+SET M = N - 1;
+  RETURN (
+    SELECT DISTINCT salary FROM employee 
+    ORDER BY salary DESC LIMIT M, 1
+  );
+END
+
 -- 1951. All the Pairs With the Maximum Number of Common Followers
 -- 1709. Biggest Window Between Visits
 
