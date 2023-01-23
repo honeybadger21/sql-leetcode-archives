@@ -131,6 +131,15 @@ GROUP BY 1, 2
 HAVING common_friend >=3
 
 -- 1532. The Most Recent Three Orders
+SELECT name AS customer_name, customer_id, order_id, order_date
+FROM 
+    (
+    SELECT name, C.customer_id, order_id, order_date, 
+           RANK() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS ranks
+    FROM Customers C JOIN Orders O on C.customer_id = O.customer_id
+     ) SUB
+WHERE ranks <= 3 ORDER BY 1, 2, 4 DESC
+
 -- 1126. Active Businesses
 -- 1831. Maximum Transaction Each Day
 
