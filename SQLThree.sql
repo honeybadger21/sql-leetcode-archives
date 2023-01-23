@@ -104,7 +104,15 @@ FROM
 ) TEMP
 WHERE ranks = 1
 
--- 1709. Biggest Window Between Visits
+-- 1709. Biggest Window Between Visits [Good Question]
+SELECT user_id, MAX(diff) AS biggest_window 
+FROM
+(
+    SELECT user_id, 
+           DATEDIFF(LEAD(visit_date, 1, '2021-01-01') OVER (PARTITION BY user_id ORDER BY visit_date), visit_date) AS diff FROM userVisits
+) A
+GROUP BY user_id ORDER BY user_id
+
 
 -----------
 -- Day 4 --
