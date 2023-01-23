@@ -119,15 +119,16 @@ GROUP BY user_id ORDER BY user_id
 -----------
 
 -- 1949. Strong Friendship
-WITH CTE AS(SELECT user1_id, user2_id FROM friendship 
-            UNION 
-            SELECT user2_id, user1_id FROM friendship)
-
-SELECT C1.user1_id, C2.user1_id AS user2_id, COUNT(*) AS common_friend
-FROM CTE C1 JOIN CTE C2 ON C1.user1_id < C2.user2_id AND C1.user2_id = C2.user1_id
-WHERE (C1.user1_id, C2.user1_id) IN (SELECT * FROM friendship)
+WITH CTE AS (
+    SELECT user1_id AS user, user2_id AS friend FROM Friendship
+    UNION ALL
+    SELECT user2_id AS user, user1_id AS friend FROM Friendship)
+    
+SELECT A.user AS user1_id, B.user AS user2_id, count(*) AS common_friend
+FROM CTE A JOIN CTE B
+WHERE a.user < b.user AND a.friend = b.friend AND (a.user, b.user) IN (SELECT user, friend FROM CTE)
 GROUP BY 1, 2
-HAVING COUNT(*) >= 3
+HAVING common_friend >=3
 
 -- 1532. The Most Recent Three Orders
 -- 1126. Active Businesses
