@@ -296,7 +296,11 @@ ORDER BY Company, Salary
 -- Day 9 --
 -----------
 
--- 571. Find Median Given Frequency of Numbers
+-- 571. Find Median Given Frequency of Numbers [Good Question]
+SELECT AVG(N.Num) Median FROM Numbers N
+WHERE N.Frequency >= ABS((SELECT SUM(Frequency) FROM Numbers WHERE Num <= N.Num)
+                            - (SELECT SUM(Frequency) FROM Numbers WHERE Num >= N.Num))
+                            
 -- 1225. Report Contiguous Dates
 
 -----------
