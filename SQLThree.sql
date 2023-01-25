@@ -256,8 +256,41 @@ WHERE (task_id, subtasks_count) NOT IN (SELECT * FROM Executed)
 -- Day 8 --
 -----------
 
--- 1384. Total Sales Amount by Year
--- 569. Median Employee Salary
+-- 1384. Total Sales Amount by Year [Tough Question]
+SELECT a.product_id, b.product_name, a.report_year, a.total_amount
+FROM (
+    SELECT product_id, '2018' AS report_year,
+        average_daily_sales * (DATEDIFF(LEAST(period_end, '2018-12-31'), GREATEST(period_start, '2018-01-01'))+1) AS total_amount
+    FROM Sales
+    WHERE YEAR(period_start)=2018 OR YEAR(period_end)=2018
+
+    UNION ALL
+
+    SELECT product_id, '2019' AS report_year,
+        average_daily_sales * (DATEDIFF(LEAST(period_end, '2019-12-31'), GREATEST(period_start, '2019-01-01'))+1) AS total_amount
+    FROM Sales
+    WHERE YEAR(period_start)<=2019 AND YEAR(period_end)>=2019
+
+    UNION ALL
+
+    SELECT product_id, '2020' AS report_year,
+        average_daily_sales * (DATEDIFF(LEAST(period_end, '2020-12-31'), GREATEST(period_start, '2020-01-01'))+1) AS total_amount
+    FROM Sales
+    WHERE YEAR(period_start)=2020 OR YEAR(period_end)=2020
+) a
+LEFT JOIN Product b
+ON a.product_id = b.product_id
+ORDER BY a.product_id, a.report_year
+
+-- 569. Median Employee Salary [Good Question]
+SELECT Id, Company, Salary FROM
+(
+    SELECT *, ROW_NUMBER() OVER(PARTITION BY COMPANY ORDER BY Salary, Id) AS R1, 
+              ROW_NUMBER() OVER(PARTITION BY COMPANY ORDER BY Salary DESC, Id DESC) AS R2
+    FROM Employee
+) T
+WHERE R1 BETWEEN R2 - 1 AND R2 + 1
+ORDER BY Company, Salary
 
 -----------
 -- Day 9 --
