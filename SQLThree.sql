@@ -301,7 +301,7 @@ SELECT AVG(N.Num) Median FROM Numbers N
 WHERE N.Frequency >= ABS((SELECT SUM(Frequency) FROM Numbers WHERE Num <= N.Num)
                             - (SELECT SUM(Frequency) FROM Numbers WHERE Num >= N.Num))
                             
--- 1225. Report Contiguous Dates
+-- 1225. Report Contiguous Dates [Good Question]
 WITH combined as 
 (
     SELECT fail_date as dt, 'failed' as period_state,
@@ -320,7 +320,7 @@ FROM combined GROUP BY period_state, period_group ORDER BY start_date
 -- Day 10 --
 -----------
 
--- 1454. Active Users
+-- 1454. Active Users [Good Question]
 WITH distinct_logins AS
 (
     SELECT DISTINCT id, login_date FROM Logins
@@ -336,7 +336,7 @@ SELECT DISTINCT id, `name` FROM cte INNER JOIN Accounts USING (id)
 GROUP BY id, `name`, login_date - interval rn day
 HAVING count(*) >= 5 ORDER BY 1;
 
--- 618. Students Report By Geography
+-- 618. Students Report By Geography [Good Question]
 WITH CTE AS
 (
     SELECT ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name) AS rm,
@@ -348,7 +348,7 @@ WITH CTE AS
 SELECT MIN(America) America, MIN(Asia) Asia, MIN(Europe) Europe FROM CTE
 GROUP BY rm
 
--- 2010. The Number of Seniors and Juniors to Join the Company II
+-- 2010. The Number of Seniors and Juniors to Join the Company II [Good Question]
 WITH salary_ranker AS 
 (
     SELECT *, SUM(salary) OVER(PARTITION BY experience ORDER BY salary) AS running_sum
