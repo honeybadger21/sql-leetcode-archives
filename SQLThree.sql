@@ -198,7 +198,34 @@ WHERE counts = 1 OR ranks = 2
 -----------
 
 -- 1412. Find the Quiet Students in All Exams
--- 1972. First and Last Call On the Same Day
+SELECT E.student_id, S.student_name 
+FROM Exam E, 
+     Student S, 
+     (SELECT MAX(score) AS high, MIN(score) AS low, exam_id FROM Exam GROUP BY exam_id) T
+WHERE E.student_id = S.student_id AND E.exam_id = T.exam_id
+GROUP BY E.student_id, S.student_name
+HAVING SUM(CASE WHEN E.score = T.high THEN 1 ELSE 0 END) = 0 AND 
+       SUM(CASE WHEN E.score = T.low THEN 1 ELSE 0 END) = 0
+ORDER BY E.student_id
+
+-- 1972. First and Last Call On the Same Day [TOUGH QUESTION]
+WITH CTE AS 
+(
+    SELECT caller_id AS U1, recipient_id AS U2, call_time FROM Calls 
+    UNION ALL
+    SELECT recipient_id AS U1, caller_id AS U2, call_time FROM Calls 
+), 
+
+CTE2 AS 
+(
+    SELECT U1, U2, 
+           RANK() OVER (PARTITION BY U1, DATE(call_time) ORDER BY call_time) AS ASCY,
+           RANK() OVER (PARTITION BY U1, DATE(call_time) ORDER BY call_time DESC) AS DESCY
+    FROM CTE
+)
+
+SELECT DISTINCT C1.U1 AS user_id FROM CTE2 C1 JOIN CTE2 C2
+ON C1.U1 = C2.U1 AND C1.U2 = C2.U2 AND C1.ASCY = 1 AND C2.DESCY = 1
 
 -----------
 -- Day 7 --
