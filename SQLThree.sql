@@ -141,7 +141,24 @@ FROM
 WHERE ranks <= 3 ORDER BY 1, 2, 4 DESC
 
 -- 1126. Active Businesses
+SELECT business_id FROM
+(
+    SELECT event_type, AVG(occurences) AS avg_o FROM EVENTS E1 GROUP BY event_type
+) T1
+JOIN
+EVENTS E2 ON T1.event_type = E2.event_type
+WHERE E2.occurences > T1.avg_o 
+GROUP BY business_id HAVING COUNT(DISTINCT T1.event_type) > 1
+
 -- 1831. Maximum Transaction Each Day
+SELECT transaction_id
+FROM 
+(
+    SELECT transaction_id, 
+           RANK() OVER(PARTITION BY DATE(day) ORDER BY amount DESC) AS ranks
+    FROM Transactions
+) T1
+WHERE ranks = 1 ORDER BY 1
 
 -----------
 -- Day 5 --
