@@ -165,8 +165,33 @@ WHERE ranks = 1 ORDER BY 1
 -----------
 
 -- 1613. Find the Missing IDs
+WITH RECURSIVE T1 AS 
+(
+    SELECT 1 AS n 
+    UNION
+    SELECT n+1 FROM T1
+    WHERE n < (SELECT MAX(customer_id) FROM customers)
+)
+
+SELECT n as ids FROM T1 
+WHERE n NOT IN (SELECT customer_id FROM customers)
+
 -- 1270. All People Report to the Given Manager
+SELECT E1.employee_id FROM Employees E1, Employees E2, Employees E3
+WHERE E1.manager_id = E2.employee_id
+      AND E2.manager_id = E3.employee_id
+      AND E3.manager_id = 1
+      AND E1.employee_id != 1
+      
 -- 1369. Get the Second Most Recent Activity
+SELECT username, activity, startDate, endDate FROM
+(
+    SELECT username, activity, startDate, endDate,
+           row_number() OVER (PARTITION BY username ORDER BY startDate DESC) AS ranks, 
+           COUNT(username) OVER (PARTITION BY username) AS COUNTS
+    FROM UserActivity
+) T1
+WHERE counts = 1 OR ranks = 2
 
 -----------
 -- Day 6 --
