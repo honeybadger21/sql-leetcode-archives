@@ -232,7 +232,25 @@ ON C1.U1 = C2.U1 AND C1.U2 = C2.U2 AND C1.ASCY = 1 AND C2.DESCY = 1
 -----------
 
 -- 185. Department Top Three Salaries
--- 1767. Find the Subtasks That Did Not Execute
+SELECT D.Name AS 'Department', E1.Name AS 'Employee', E1.Salary
+FROM Employee E1 JOIN Department D ON E1.DepartmentId = D.Id
+WHERE 3 > (
+            SELECT COUNT(DISTINCT E2.Salary)
+            FROM Employee E2
+            WHERE E2.Salary > E1.Salary AND E1.DepartmentId = E2.DepartmentId
+          )
+          
+-- 1767. Find the Subtasks That Did Not Execute [Good Question]
+WITH RECURSIVE CTE AS
+(
+    SELECT task_id, subtasks_count FROM Tasks
+    UNION ALL 
+    SELECT task_id, subtasks_count - 1
+    FROM CTE WHERE subtasks_count > 1
+)
+
+SELECT task_id, subtasks_count AS subtask_id FROM CTE
+WHERE (task_id, subtasks_count) NOT IN (SELECT * FROM Executed)
 
 -----------
 -- Day 8 --
