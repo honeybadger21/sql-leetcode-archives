@@ -302,6 +302,19 @@ WHERE N.Frequency >= ABS((SELECT SUM(Frequency) FROM Numbers WHERE Num <= N.Num)
                             - (SELECT SUM(Frequency) FROM Numbers WHERE Num >= N.Num))
                             
 -- 1225. Report Contiguous Dates
+WITH combined as 
+(
+    SELECT fail_date as dt, 'failed' as period_state,
+           DAYOFYEAR(fail_date) - ROW_NUMBER() OVER(ORDER BY fail_date) AS period_group 
+    FROM Failed WHERE fail_date BETWEEN '2019-01-01' AND '2019-12-31'
+    UNION ALL
+    SELECT success_date as dt, 'succeeded' as period_state,
+           DAYOFYEAR(success_date) - ROW_NUMBER() OVER(ORDER BY success_date) AS period_group 
+    FROM Succeeded WHERE success_date BETWEEN '2019-01-01' AND '2019-12-31'  
+)
+
+SELECT period_state, MIN(dt) AS start_date, MAX(dt) AS end_date
+FROM combined GROUP BY period_state, period_group ORDER BY start_date
 
 -----------
 -- Day 10 --
