@@ -321,5 +321,50 @@ FROM combined GROUP BY period_state, period_group ORDER BY start_date
 -----------
 
 -- 1454. Active Users
+WITH distinct_logins AS
+(
+    SELECT DISTINCT id, login_date FROM Logins
+),
+
+CTE AS
+(
+	SELECT distinct id, login_date, ROW_NUMBER() OVER(PARTITION BY id ORDER BY id, login_date) AS rn
+	FROM distinct_logins
+)
+
+SELECT DISTINCT id, `name` FROM cte INNER JOIN Accounts USING (id)
+GROUP BY id, `name`, login_date - interval rn day
+HAVING count(*) >= 5 ORDER BY 1;
+
 -- 618. Students Report By Geography
+WITH CTE AS
+(
+    SELECT ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name) AS rm,
+           CASE WHEN continent = 'America' THEN name END AS America,
+           CASE WHEN continent = 'Asia' THEN name END AS Asia,
+           CASE WHEN continent = 'Europe' THEN name END AS Europe
+    FROM  Student)
+
+SELECT MIN(America) America, MIN(Asia) Asia, MIN(Europe) Europe FROM CTE
+GROUP BY rm
+
 -- 2010. The Number of Seniors and Juniors to Join the Company II
+WITH salary_ranker AS 
+(
+    SELECT *, SUM(salary) OVER(PARTITION BY experience ORDER BY salary) AS running_sum
+    FROM candidates
+),
+seniors AS
+(
+    SELECT employee_id, running_sum 
+    FROM salary_ranker WHERE experience="senior" AND running_sum <= 70000
+), 
+juniors AS
+(
+    SELECT employee_id, running_sum
+    FROM salary_ranker WHERE running_sum <= 70000 - (SELECT IFNULL(MAX(running_sum), 0) FROM seniors)
+)
+
+SELECT employee_id FROM seniors
+UNION
+SELECT employee_id FROM juniors
