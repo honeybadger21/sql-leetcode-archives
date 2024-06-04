@@ -27,3 +27,9 @@ CROSS JOIN Subjects sub
 LEFT JOIN Examinations e ON s.student_id = e.student_id AND sub.subject_name = e.subject_name
 GROUP BY s.student_id, s.student_name, sub.subject_name
 ORDER BY s.student_id, sub.subject_name;
+
+-- 570. Managers with at Least 5 Direct Reports
+select e.name from (
+select managerId, count(id) s from employee where managerId is not null group by 1 having s >= 5
+) t
+join employee e on t.managerId = e.id
