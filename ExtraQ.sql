@@ -15,3 +15,7 @@ on a1.machine_id = a2.machine_id and a1.process_id = a2.process_id) t where ok>0
 ) t2
 group by 1
 
+-- 577. Employee Bonus
+select name, bonus from employee a left join bonus b on a.empId = b.empId 
+where bonus is null or bonus < 1000
+
