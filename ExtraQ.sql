@@ -33,3 +33,19 @@ select e.name from (
 select managerId, count(id) s from employee where managerId is not null group by 1 having s >= 5
 ) t
 join employee e on t.managerId = e.id
+
+-- 1934. Confirmation Rate
+WITH rate_cte AS
+  (SELECT user_id,
+          ROUND(SUM(CASE
+                        WHEN action='confirmed' THEN 1
+                        ELSE 0
+                    END) / COUNT(*), 2) AS confirmation_rate
+   FROM Confirmations
+   GROUP BY user_id
+   ORDER BY NULL)
+
+SELECT s.user_id,
+       IFNULL(r.confirmation_rate, 0) AS confirmation_rate
+FROM Signups s
+LEFT JOIN rate_cte r ON s.user_id = r.user_id;
