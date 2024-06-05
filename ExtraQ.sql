@@ -49,3 +49,15 @@ SELECT s.user_id,
        IFNULL(r.confirmation_rate, 0) AS confirmation_rate
 FROM Signups s
 LEFT JOIN rate_cte r ON s.user_id = r.user_id;
+
+-- 1251. Average Selling Price 
+-- this is a fun question, nice problem solving 
+select distinct(q.product_id), IFNULL(t2.average_price,0) as average_price from 
+prices q left join
+(
+select product_id, round(sum(price*units)/sum(units), 2) as average_price from (
+select p.product_id, p.price, u.units from prices p join unitssold u on p.start_date <= u.purchase_date and p.end_date >= u.purchase_date and p.product_id = u.product_id
+) t1
+group by 1
+) t2
+on q.product_id = t2.product_id
