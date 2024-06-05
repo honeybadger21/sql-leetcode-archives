@@ -61,3 +61,8 @@ select p.product_id, p.price, u.units from prices p join unitssold u on p.start_
 group by 1
 ) t2
 on q.product_id = t2.product_id
+
+-- 1075. Project Employees I
+select project_id, round(sum(experience_years)/count(name), 2) as average_years
+from project p join employee e on p.employee_id=e.employee_id
+group by 1
