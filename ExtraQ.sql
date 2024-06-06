@@ -86,3 +86,9 @@ GROUP BY
 ORDER BY 
   percentage DESC, -- Order the results by percentage in descending order
   contest_id; -- Then order by contest ID for ties
+
+-- 619. Biggest Single Number
+select ifnull((select num from mynumbers
+group by num
+having count(*)=1
+order by 1 desc limit 1), null) as num
